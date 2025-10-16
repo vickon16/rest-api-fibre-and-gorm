@@ -1,0 +1,49 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Logs
+*.log
+
+# Dependency directories (when using vendoring)
+vendor/
+
+# IDE and editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment files
+.env
+.env.*
+
+# Build directories
+bin/
+build/
+dist/
+tmp/
+.cache/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Fiber-specific temporary files
+fiber.log
+
+# Go workspace files
+go.work
+go.work.sum
+
+# Air live-reload tool temporary files
+tmp/
+.air.toml
+.air/
