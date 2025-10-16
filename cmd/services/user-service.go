@@ -21,9 +21,8 @@ func CreateUser(c *fiber.Ctx) error {
 	}
 
 	// Validate the input
-	if errs, err := utils.ValidateDto(dto); err != nil {
-		log.Println("Unexpected validation error:", err)
-	} else if errs != nil {
+	errs, _ := utils.ValidateDto(dto)
+	if errs != nil {
 		return utils.ErrorResponse(c, "Validation errors occurred", fiber.StatusBadRequest, errs)
 	}
 
