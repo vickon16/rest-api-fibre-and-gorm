@@ -12,14 +12,8 @@ func CreateOrder(c *fiber.Ctx) error {
 	db := database.Database.Db
 	var dto models.CreateOrderDTO
 
-	if err := utils.BodyParser(c, &dto); err != nil {
+	if err := utils.BodyParseAndValidate(c, &dto); err != nil {
 		return utils.ErrorResponse(c, err.Error(), fiber.StatusBadRequest)
-	}
-
-	// Validate input
-	errs, _ := utils.ValidateDto(dto)
-	if errs != nil {
-		return utils.ErrorResponse(c, "Validation errors occurred", fiber.StatusBadRequest, errs)
 	}
 
 	// Run both existence check in parallel
@@ -117,13 +111,8 @@ func UpdateOrder(c *fiber.Ctx) error {
 	}
 
 	var dto models.UpdateOrderDTO
-	if err := utils.BodyParser(c, &dto); err != nil {
+	if err := utils.BodyParseAndValidate(c, &dto); err != nil {
 		return utils.ErrorResponse(c, err.Error(), fiber.StatusBadRequest)
-	}
-
-	// Validate input
-	if errs, _ := utils.ValidateDto(dto); errs != nil {
-		return utils.ErrorResponse(c, "Validation errors occurred", fiber.StatusBadRequest, errs)
 	}
 
 	// Fetch the order (only once)

@@ -12,14 +12,8 @@ func CreateProduct(c *fiber.Ctx) error {
 	db := database.Database.Db
 	var dto models.CreateProductDTO
 
-	if err := utils.BodyParser(c, &dto); err != nil {
+	if err := utils.BodyParseAndValidate(c, &dto); err != nil {
 		return utils.ErrorResponse(c, err.Error(), fiber.StatusBadRequest)
-	}
-
-	// Validate input
-	errs, _ := utils.ValidateDto(dto)
-	if errs != nil {
-		return utils.ErrorResponse(c, "Validation errors occurred", fiber.StatusBadRequest, errs)
 	}
 
 	// Check if product already exists
@@ -89,14 +83,8 @@ func UpdateProduct(c *fiber.Ctx) error {
 	}
 
 	var dto models.UpdateProductDTO
-	if err := utils.BodyParser(c, &dto); err != nil {
+	if err := utils.BodyParseAndValidate(c, &dto); err != nil {
 		return utils.ErrorResponse(c, err.Error(), fiber.StatusBadRequest)
-	}
-
-	// Validate input
-	errs, _ := utils.ValidateDto(dto)
-	if errs != nil {
-		return utils.ErrorResponse(c, "Validation errors occurred", fiber.StatusBadRequest, errs)
 	}
 
 	var product models.Product

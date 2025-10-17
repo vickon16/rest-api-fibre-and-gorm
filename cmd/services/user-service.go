@@ -1,8 +1,6 @@
 package services
 
 import (
-	"log"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/vickon16/rest-api-fibre-and-gorm/cmd/database"
 	"github.com/vickon16/rest-api-fibre-and-gorm/cmd/models"
@@ -16,14 +14,8 @@ func CreateUser(c *fiber.Ctx) error {
 	var dto models.CreateUserDTO
 
 	// Parse the dto
-	if err := c.BodyParser(&dto); err != nil {
-		return utils.ErrorResponse(c, "Invalid request body", fiber.StatusBadRequest)
-	}
-
-	// Validate the input
-	errs, _ := utils.ValidateDto(dto)
-	if errs != nil {
-		return utils.ErrorResponse(c, "Validation errors occurred", fiber.StatusBadRequest, errs)
+	if err := utils.BodyParseAndValidate(c, &dto); err != nil {
+		return utils.ErrorResponse(c, err.Error(), fiber.StatusBadRequest)
 	}
 
 	// Check if user already exists
@@ -94,15 +86,8 @@ func UpdateUser(c *fiber.Ctx) error {
 	var dto models.UpdateUserDTO
 
 	// Parse the dto
-	if err := utils.BodyParser(c, &dto); err != nil {
+	if err := utils.BodyParseAndValidate(c, &dto); err != nil {
 		return utils.ErrorResponse(c, err.Error(), fiber.StatusBadRequest)
-	}
-
-	// Validate the input
-	if errs, err := utils.ValidateDto(dto); err != nil {
-		log.Println("Unexpected validation error:", err)
-	} else if errs != nil {
-		return utils.ErrorResponse(c, "Validation errors occurred", fiber.StatusBadRequest, errs)
 	}
 
 	var user models.User
